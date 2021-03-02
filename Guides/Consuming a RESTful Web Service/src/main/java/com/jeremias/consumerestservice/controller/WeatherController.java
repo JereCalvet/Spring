@@ -19,13 +19,13 @@ public class WeatherController {
     private final WeatherService weatherService;
 
     @GetMapping
-    public WeatherDTO askCurrentWeather(@RequestParam("cityToCheck") String cityToCheck) {
+    public ResponseEntity<WeatherDTO> askCurrentWeather(@RequestParam("cityToCheck") String cityToCheck) {
         final ResponseEntity<WeatherDTO> currentWeatherResponse = weatherService.getCurrentWeather(cityToCheck);
 
-        if (currentWeatherResponse.getStatusCode() == HttpStatus.OK) {
-            return currentWeatherResponse.getBody();
+        if (currentWeatherResponse != null) {
+            return currentWeatherResponse;
         } else {
-            throw new ResponseStatusException(HttpStatus.NO_CONTENT);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("City %s not found.", cityToCheck));
         }
     }
 }
