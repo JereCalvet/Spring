@@ -1,0 +1,37 @@
+# Server config
+server:
+  error:
+    include-message : always
+    include-binding-error : always
+
+#logging:
+#  level:
+#    org:
+#      hibernate:
+#        type: trace
+
+spring:
+  output:
+    ansi:
+      enabled: always
+
+  datasource:
+    url: jdbc:h2:mem:testDB;DB_CLOSE_DELAY=-1
+    username: sa
+    password: sa
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      dll-auto: create-drop
+    properties:
+      hibernate:
+        format_sql: true
+
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            clientId: ${GITHUBAPPCLIENTID}
+            clientSecret: ${GITHUBAPPSECRET}
