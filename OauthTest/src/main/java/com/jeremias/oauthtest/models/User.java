@@ -1,12 +1,16 @@
 package com.jeremias.oauthtest.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.jeremias.oauthtest.security.Roles;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Set;
 
 @Entity
-public class User {
+public class User implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
@@ -15,16 +19,14 @@ public class User {
     //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
     //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private String roles;
+    private Set<Roles> roles;
 
     public User() {
-        this.roles = "ROLE_USER";
     }
 
     public User(String email, String password) {
         this.email = email;
         this.password = password;
-        this.roles = "ROLE_USER";
     }
 
     public Long getId() {
@@ -51,11 +53,11 @@ public class User {
         this.password = password;
     }
 
-    public String getRoles() {
+    public Set<Roles> getRoles() {
         return roles;
     }
 
-    public void setRoles(String roles) {
+    public void setRoles(Set<Roles> roles) {
         this.roles = roles;
     }
 }

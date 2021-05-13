@@ -1,4 +1,4 @@
-package com.jeremias.oauthtest.security;
+package com.jeremias.oauthtest.auth;
 
 import com.jeremias.oauthtest.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MyUserDetailsService implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     UserRepository userRepository;
@@ -16,7 +16,7 @@ public class MyUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return userRepository.findByEmail(email)
-                .map(MyUserDetails::new)
+                .map(UserDetailsImpl::new)
                 .orElseThrow(() ->
                         new UsernameNotFoundException(String.format("User %s not found", email)));
     }
