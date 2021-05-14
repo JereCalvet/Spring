@@ -5,20 +5,17 @@ import com.jeremias.oauthtest.models.UserDto;
 import com.jeremias.oauthtest.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-/* Ver lo de los roles y authorities
-* actualizar el metodo update
-*
+/*
 * ver como actualizar el usuario, sin la nacesidad de pasar todos los fields
 *  */
 
 @RestController
-@RequestMapping(path = "api/user/", consumes = "application/json", produces = "application/json")
+@RequestMapping(path = "api/user/", produces = "application/json")
 public class UserController {
 
     @Autowired

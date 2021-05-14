@@ -67,6 +67,9 @@ public class ApiExceptionHandler {
                 request.getRequestURI());
         final String loggerMessage = buildLoggerMessage(ex, handlerMethod, request);
         LOGGER.error(loggerMessage);
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug(ex.getMessage());
+        }
         return buildResponseEntity(responseBody);
     }
 

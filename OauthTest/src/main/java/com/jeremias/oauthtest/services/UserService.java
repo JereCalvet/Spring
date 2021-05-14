@@ -6,6 +6,7 @@ import com.jeremias.oauthtest.models.User;
 import com.jeremias.oauthtest.models.UserDto;
 import com.jeremias.oauthtest.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -23,8 +24,12 @@ public class UserService {
     @Autowired
     private final UserRepository userRepository;
 
-    public UserService(UserRepository userRepository) {
+    @Autowired
+    private final PasswordEncoder passwordEncoder;
+
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<User> getAllStudents() {
@@ -37,7 +42,12 @@ public class UserService {
                 .ifPresent(s -> {
                     throw new EmailAlreadyTakenException(String.format(EMAIL_ALREADY_TAKEN_ERROR_MSG, userRequest.getEmail()));
                 });
-        userRepository.save(new User(userRequest.getEmail(), userRequest.getPassword()));
+
+        var userToSave = new User(
+                userRequest.getEmail(),
+                passwordEncoder.encode(userRequest.getPassword()),
+                userRequest.getRole());
+        userRepository.save(userToSave);
     }
 
     public void deleteUser(Long id) {
@@ -62,31 +72,18 @@ public class UserService {
 
     @Transactional
     public User updateUser(Long id, UserDto userRequest) {
-        /*
-        final Optional<User> userFound = userRepository.findById(id);
-        final User userToUpdate = userFound
-                .orElseThrow(() -> new UserNotFoundException(String.format(USER_ID_NOT_FOUND_ERROR_MSG, id)));
-
-        userToUpdate.setEmail(userRequest.getEmail());
-        userToUpdate.setPassword(userRequest.getPassword());
-        userToUpdate.setRoles(userRequest.getRoles());
-
-        return userToUpdate;
-         */
-
         final Optional<User> userToUpdate = userRepository.findById(id);
-
         Consumer<User> updateUser = user -> {
             user.setEmail(userRequest.getEmail());
             user.setPassword(userRequest.getPassword());
-            user.setRoles(userRequest.getRoles());
+            user.setRole(userRequest.getRole());
         };
-
         userToUpdate
                 .ifPresentOrElse(updateUser, () -> {
                     throw new UserNotFoundException(String.format(USER_ID_NOT_FOUND_ERROR_MSG, id));
                 });
 
+        //noinspection OptionalGetWithoutIsPresent
         return userToUpdate.get();
     }
 }

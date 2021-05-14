@@ -1,7 +1,7 @@
 package com.jeremias.oauthtest.models;
 
+import com.jeremias.oauthtest.security.Roles;
 import org.hibernate.validator.constraints.Length;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
@@ -13,12 +13,12 @@ public class UserDto {
     @Length(min = 5)
     private final String password;
     @NotNull(message = "Roles is required.")
-    private final String roles;
+    private final Roles role;
 
-    public UserDto(String email, String password, String roles) {
+    public UserDto(String email, String password, Roles role) {
         this.email = email;
         this.password = password;
-        this.roles = roles;
+        this.role = role;
     }
 
     public String getEmail() {
@@ -29,7 +29,7 @@ public class UserDto {
         return password;
     }
 
-    public String getRoles() {
-        return roles;
+    public Roles getRole() {
+        return role;
     }
 }

@@ -1,14 +1,9 @@
 package com.jeremias.oauthtest.auth;
 
 import com.jeremias.oauthtest.models.User;
-import com.jeremias.oauthtest.security.Roles;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class UserDetailsImpl implements UserDetails {
@@ -24,52 +19,45 @@ public class UserDetailsImpl implements UserDetails {
     public UserDetailsImpl(User user) {
         this.password = user.getPassword();
         this.username = user.getEmail();
-        this.grantedAuthorities = getAllGrantedAuthoritiesFromEachRolesOfTheUser(user);
-        this.isAccountNonExpired = isAccountNonExpired;
-        this.isAccountNonLocked = isAccountNonLocked;
-        this.isCredentialsNonExpired = isCredentialsNonExpired;
-        this.isEnable = isEnable;
+        this.grantedAuthorities = user.getRole().getGrantedAuthorities();
+        this.isAccountNonExpired = true;
+        this.isAccountNonLocked = true;
+        this.isCredentialsNonExpired = true;
+        this.isEnable = true;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("test"));
+        return grantedAuthorities;
     }
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return user.getEmail();
+        return username;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return isAccountNonExpired;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return isAccountNonLocked;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return isCredentialsNonExpired;
     }
 
     @Override
     public boolean isEnabled() {
-        return true;
-    }
-
-    private Set<? extends GrantedAuthority> getAllGrantedAuthoritiesFromEachRolesOfTheUser(User user) {
-        final Set<GrantedAuthority> allPermissions = new HashSet<>();
-        user.getRoles()
-                .forEach(rol -> allPermissions.addAll(rol.getGrantedAuthorities()));
-        return allPermissions;
+        return isEnable;
     }
 }

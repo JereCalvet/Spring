@@ -6,9 +6,11 @@ server:
 
 #logging:
 #  level:
+#    root: debug
 #    org:
 #      hibernate:
 #        type: trace
+
 
 spring:
   output:
