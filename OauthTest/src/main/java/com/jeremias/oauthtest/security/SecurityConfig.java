@@ -14,6 +14,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static com.jeremias.oauthtest.security.Authorities.*;
+import static com.jeremias.oauthtest.security.Roles.ADMIN;
+import static com.jeremias.oauthtest.security.Roles.USER;
 
 @EnableWebSecurity
 @Configuration
@@ -41,27 +43,34 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         final var apiUserMethods = "/api/user/**";
+        //@formatter:off
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/api/user/register").permitAll()
-                .antMatchers(HttpMethod.DELETE, apiUserMethods).hasAuthority(USER_DELETE.getPermission())
-                .antMatchers(HttpMethod.PUT, apiUserMethods).hasAuthority(USER_WRITE.getPermission())
-                .antMatchers(HttpMethod.GET, apiUserMethods).hasAuthority(USER_READ.getPermission())
-                .anyRequest()
-                .authenticated()
+                    .antMatchers(HttpMethod.POST, "/api/user/register").permitAll()
+                .and()
+                .authorizeRequests()
+                    .antMatchers(HttpMethod.GET, apiUserMethods).hasAuthority(USER_READ.getPermission())
+                    .antMatchers(HttpMethod.DELETE, apiUserMethods).hasAuthority(USER_DELETE.getPermission())
+                    .antMatchers(HttpMethod.PUT, apiUserMethods).hasAuthority(USER_WRITE.getPermission())
                 .and()
                 .formLogin()
                 .and()
                 .logout()
-                .clearAuthentication(true)
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID", "remember-me");
+                    .clearAuthentication(true)
+                    .invalidateHttpSession(true)
+                    .deleteCookies("JSESSIONID", "remember-me")
+                .and()
+                .oauth2Login();
+        //@formatter:on
     }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) {
-        auth.authenticationProvider(daoAuthenticationProvider());
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService)
+                .passwordEncoder(passwordEncoder);
+    }
+   /*     auth.authenticationProvider(daoAuthenticationProvider());
     }
 
     @Bean
@@ -71,4 +80,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         provider.setUserDetailsService(userDetailsService);
         return provider;
     }
+
+    */
 }

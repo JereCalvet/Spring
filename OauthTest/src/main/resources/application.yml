@@ -37,3 +37,9 @@ spring:
           github:
             clientId: ${GITHUBAPPCLIENTID}
             clientSecret: ${GITHUBAPPSECRET}
+          google:
+            clientId: ${GOOGLEAPPCLIENTID}
+            clientSecret: ${GOOGLEAPPSECRET}
+          facebook:
+            clientId: ${FACEBOOKAPPCLIENTID}
+            clientSecret: ${FACEBOOKAPPSECRET}
