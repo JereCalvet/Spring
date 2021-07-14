@@ -1,12 +1,16 @@
 package main;
 
+import beans.AutowiredBean;
 import beans.MyBean;
 import config.ProjectConfig;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class Main {
 
-    /*El contexto de la aplicacion debe ser configurado y se puede configurado usando: XML o Annotations.
+    /*
+    El contexto es una coleccion de instancias reconocidas por el framework.
+
+    El contexto de la aplicacion debe ser configurado y se puede configurado usando: XML o Annotations.
     Para configurarlo debo pasarle una clase de configuración como parametro en el constructor (una clase normal
     anotada como configuracion).
 
@@ -40,7 +44,7 @@ public class Main {
             System.out.println("bean2 = " + bean2.getText());
             System.out.println("bean3 = " + bean3.getText());
 
-            /*Pidiendo beans al contexto por nombre (parametro del metodo: nombre del bean)*/
+            /*Pidiendo beans al contexto por nombre (parametro del metodo: nombre del bean)
             System.out.println("");
             final MyBean bean4 = context.getBean("myBean1", MyBean.class);
             final MyBean bean5 = context.getBean("myBean2",MyBean.class);
@@ -48,10 +52,11 @@ public class Main {
             System.out.println("bean4 = " + bean4.getText());
             System.out.println("bean5 = " + bean5.getText());
             System.out.println("bean6 = " + bean6.getText());
+            */
 
-
-
-            //https://youtu.be/m-L-r862J-E?list=PLEocw3gLFc8WO_HvFzTWUj2fqa7Y8-yg5&t=1920
+            System.out.println();
+            final AutowiredBean hostBean = context.getBean(AutowiredBean.class);
+            hostBean.callingMethodOfAnAutowiredBean();
 
         }
     }
