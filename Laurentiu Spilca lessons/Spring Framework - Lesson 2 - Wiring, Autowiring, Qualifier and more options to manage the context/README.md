@@ -4,5 +4,5 @@
 
 Temas: 
 * Conectando instancias creadas con metodo @Bean
-* 
-*  
+* Conectando instancias estereotipadas 
+* Inyección por tipo y por nombre  
