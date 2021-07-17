@@ -8,14 +8,14 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 public class Main {
 
     /*
-    El contexto es una coleccion de instancias reconocidas por el framework.
+    El contexto es una colección de instancias reconocidas por el framework.
 
-    El contexto de la aplicacion debe ser configurado y se puede configurado usando: XML o Annotations.
-    Para configurarlo debo pasarle una clase de configuración como parametro en el constructor (una clase normal
-    anotada como configuracion).
+    El contexto de la aplicación debe ser configurado y se puede configurado usando: XML o Annotations.
+    Para configurarlo debo pasarle una clase de configuración como parámetro en el constructor (una clase normal
+    anotada como configuración).
 
-    La clase AnnotationConfigApplicationContext es una implementacion de la interfaz Application context. Solo recibe
-    clases marcadas con la anotacion (NO XML).
+    La clase AnnotationConfigApplicationContext es una implementación de la interfaz Application context. Solo recibe
+    clases marcadas con la anotación (NO XML).
     */
 
     public static void main(String[] args) {
@@ -23,8 +23,8 @@ public class Main {
 
             /*
             Errores pidiendo beans al contexto:
-                *Si no agrego el bean a la configuracion del contexto,
-                me da excepcion NoSuchBeanDefinitionException: No qualifying bean of type 'beans.MyBean' available.
+                *Si no agrego el bean a la configuración del contexto,
+                me da excepción NoSuchBeanDefinitionException: No qualifying bean of type 'beans.MyBean' available.
                 *Si hay mas de una instancia del mismo tipo, spring no sabe cual devolver y tira exception,
                 NoUniqueBeanDefinitionException: No qualifying bean of type 'beans.MyBean' available: expected
                 single matching bean but found 2: myBean1,myBean2
@@ -32,10 +32,10 @@ public class Main {
 
 
             Si pido el bean varias veces, solo obtengo diferentes referencias del mismo objeto, dado que por defecto las beans
-            son singleton. Tambien pueden ser prototipos pero hay que configurarlo.
+            son singleton. También pueden ser prototipos pero hay que configurarlo.
             */
 
-            /*Pidiendo beans al contexto por tipo (parametro del metodo: nombre de la clase)*/
+            /*Pidiendo beans al contexto por tipo (parámetro del método: nombre de la clase)*/
             final MyBean bean1 = context.getBean(MyBean.class);
             final MyBean bean2 = context.getBean(MyBean.class);
             final MyBean bean3 = context.getBean(MyBean.class);
@@ -44,7 +44,7 @@ public class Main {
             System.out.println("bean2 = " + bean2.getText());
             System.out.println("bean3 = " + bean3.getText());
 
-            /*Pidiendo beans al contexto por nombre (parametro del metodo: nombre del bean)
+            /*Pidiendo beans al contexto por nombre (parámetro del método: nombre del bean)
             System.out.println("");
             final MyBean bean4 = context.getBean("myBean1", MyBean.class);
             final MyBean bean5 = context.getBean("myBean2",MyBean.class);

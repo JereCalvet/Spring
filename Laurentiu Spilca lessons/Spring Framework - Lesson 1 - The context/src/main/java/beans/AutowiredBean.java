@@ -6,27 +6,27 @@ import org.springframework.stereotype.Component;
 @Component
 public class AutowiredBean {
     /*
-        La anotacion autowired sirve para conectar beans entre en el contexto.
+        La anotación autowired sirve para conectar beans entre en el contexto.
         Hay 3 formas de conectar beans:
-            a) injectandola directamente sobre el field
+            a) inyectándola directamente sobre el field
                 @Autowired
                 private MyBean bean;
 
-            b) injectandola en el parametro del constructor
+            b) inyectándola en el parámetro del constructor
                 private final MyBean bean;
                 @Autowired
                 public AutowiredBean(MyBean bean) {
                     this.bean = bean;
                 }
 
-            c) injectandola en el parametro del setter
+            c) inyectándola en el parámetro del setter
                 private MyBean bean;
                 @Autowired
                 public void setBean(MyBean bean) {
                     this.bean = bean;
                 }
 
-        La opcion recomendada es la B, sobre el constructor, dado que es la unica opcion que
+        La opción recomendada es la B, sobre el constructor, dado que es la única opción que
         permite hacer el field final, convirtiendo en una constante, es decir inmutable.
         Ademas tiene beneficios a la hora de hacer testing.
 */
