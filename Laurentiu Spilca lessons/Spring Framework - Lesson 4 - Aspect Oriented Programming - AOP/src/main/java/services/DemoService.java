@@ -13,4 +13,11 @@ public class DemoService {
         System.out.println("A punto de tirar una excepción");
         throw new RuntimeException("Excepción de prueba.");
     }
+
+
+    public String printAndReturnHello(String name) {
+        final String message = String.format("Hello %s", name);
+        System.out.println("Ejecución normal del método: " + message);
+        return message;
+    }
 }

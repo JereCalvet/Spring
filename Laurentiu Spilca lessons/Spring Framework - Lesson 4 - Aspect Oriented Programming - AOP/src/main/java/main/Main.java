@@ -9,7 +9,10 @@ public class Main {
         try (var context = new AnnotationConfigApplicationContext(ProjectConfig.class)) {
             final DemoService service = context.getBean(DemoService.class);
             service.printHello("Jere");
-            service.helloThrowingException();
+            /*service.helloThrowingException();  comento para poder seguir trabajando*/
+            System.out.println("\nA countinuación voy a utilizar la anotación @Around con otro método a interceptar.");
+            final String mensaje = service.printAndReturnHello("Jere");
+            System.out.println("Valor final devuelto = " + mensaje);
         }
     }
 }

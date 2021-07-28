@@ -5,5 +5,6 @@
 Temas:
 * Dependencias de AOP
 * Aspecto: Creación, inserción al contexto.
-* Point Cut, Join Cut   
+* Point Cut, Join Cut
+* Anotaciones: Before, After, AfterReturning, AfterThrowing, Around.   
 
