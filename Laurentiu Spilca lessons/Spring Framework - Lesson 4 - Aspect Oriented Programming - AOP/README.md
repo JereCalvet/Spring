@@ -6,5 +6,6 @@ Temas:
 * Dependencias de AOP
 * Aspecto: Creación, inserción al contexto.
 * Point Cut, Join Cut
-* Anotaciones: Before, After, AfterReturning, AfterThrowing, Around.   
+* Anotaciones: EnableAspectJAutoProxy, Before, After, AfterReturning, AfterThrowing, Around.   
+ 
 
