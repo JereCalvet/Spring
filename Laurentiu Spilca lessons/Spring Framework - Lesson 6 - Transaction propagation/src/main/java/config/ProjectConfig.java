@@ -18,7 +18,7 @@ public class ProjectConfig {
 
     @Bean
     public DataSource dataSource() {
-        return new DriverManagerDataSource("jdbc:mysql://localhost/demo", "jeremias", "masterkey");
+        return new DriverManagerDataSource("jdbc:mysql://localhost/demo", "Jere", "masterkey");
     }
 
     @Bean
