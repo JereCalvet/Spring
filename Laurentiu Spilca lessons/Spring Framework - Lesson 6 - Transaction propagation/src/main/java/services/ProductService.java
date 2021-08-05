@@ -33,11 +33,20 @@ Tipos de propagación:
       Se puede pensar que es lo opuesto a mandatory.
 
    E) SUPPORTS
+      Esta propagación indica que el método marcado con @Transactional NO CREA ninguna transacción y que puede ejecutarse
+      tanto DENTRO, como FUERA de una.
 
    F) NOT_SUPPORTED
+      Esta propagación indica que el método marcado con @Transactional debe ejecutarse FUERA de una transacción. Si ya existe
+      una tx, esta se pausara hasta que termine el método marcado con @transactional(not supported).
+      La diferencia con Never, es que el método se ejecutara pausando la tx actual, en vez de tirar una excepción. Siempre se
+      ejecuta.
 
    G) NESTED
+      Esta propagación indica que el método marcado con @Transactional CREA una transacción hija y se ejecuta DENTRO de ella.
+      Si la transacción padre falla, la transacción hija también fallará.
 
+      Raramente se usa y es exclusiva de spring.
 */
 
 @Service
@@ -90,7 +99,7 @@ public class ProductService {
          Total tx creadas: 0 → Error: método b necesita una tx
     */
 
-    @Transactional
+    //@Transactional
     public void addTenProductsNever() { //crea tx a
         IntStream.rangeClosed(1, 10)
                 .mapToObj(i -> "Product " + i)
@@ -101,6 +110,34 @@ public class ProductService {
         Total tx creadas: 1 → tx A (método a) → Error: método b debe ejecutarse fuera de una tx
     */
 
+    //@Transactional(propagation = Propagation.REQUIRED) //comentar o descomentar, debe funcionar igual
+    public void addTenProductsSupports() { //crea tx a
+        IntStream.rangeClosed(1, 10)
+                .mapToObj(i -> "Product " + i)
+                .forEach(productRepository::addProductSupports);
+    } /* commit tx a
+        Este método crea una tx. El método b se ejecutara sin problemas, tanto dentro como fuera de una.
+        Para probar, descomentar la anotación.
+    */
 
-    //https://youtu.be/O9vrhKlGZbE?t=3115
+    //@Transactional(propagation = Propagation.REQUIRED) //comentar o descomentar, debe funcionar igual
+    public void addTenProductsNotSupported() {
+        IntStream.rangeClosed(1, 10)
+                .mapToObj(i -> "Product " + i)
+                .forEach(productRepository::addProductNotSupported);
+    } /* commit tx a
+        Este método crea una tx. El método b se ejecutara sin problemas, tanto dentro como fuera de una.
+        Dado que si existe una tx, la pausara.
+        Para probar, descomentar la anotación.
+    */
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void addTenProductsNested() {
+        IntStream.rangeClosed(1, 10)
+                .mapToObj(i -> "Product " + i)
+                .forEach(productRepository::addProductNested);
+        throw new RuntimeException("boom");
+    } /* Esta tx va a fallar, por lo tanto la tx hija del método b también lo hara.
+
+    */
 }

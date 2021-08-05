@@ -11,7 +11,10 @@ public class Main {
             //service.addTenProductsRequired();
             //service.addTenProductsRequiresNew();
             //service.addTenProductsMandatory();
-            service.addTenProductsNever();
+            //service.addTenProductsNever();
+            //service.addTenProductsSupports();
+            //service.addTenProductsNotSupported();
+            service.addTenProductsNested();
         }
     }
 }

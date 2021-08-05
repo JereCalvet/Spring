@@ -43,4 +43,22 @@ public class ProductRepository {
         String sql = "INSERT INTO product VALUES (NULL, ?, ?)";
         template.update(sql, product, 1);
     }
+
+    @Transactional(propagation = Propagation.SUPPORTS) //No falla nunca, funciona con o sin tx
+    public void addProductSupports(String product) {
+        String sql = "INSERT INTO product VALUES (NULL, ?, ?)";
+        template.update(sql, product, 1);
+    }
+
+    @Transactional(propagation = Propagation.NOT_SUPPORTED) //Debe ejecutarse fuera de tx, si existe una la pausara
+    public void addProductNotSupported(String product) {
+        String sql = "INSERT INTO product VALUES (NULL, ?, ?)";
+        template.update(sql, product, 1);
+    }
+
+    @Transactional(propagation = Propagation.NESTED) //Sin importar el resultado de esta tx, si la tx padre falla, esta tmb fallará
+    public void addProductNested(String product) {
+        String sql = "INSERT INTO product VALUES (NULL, ?, ?)";
+        template.update(sql, product, 1);
+    }
 }
